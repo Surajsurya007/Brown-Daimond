@@ -1,0 +1,11 @@
+# Safe crawl permissions for search engines and Google AdSense
+# Fulfilling requirements for Google AdSense monetization eligibility
+User-agent: *
+Allow: /
+
+# Specifically authorize Google AdSense crawler
+User-agent: Mediapartners-Google
+Allow: /
+
+# Reference XML Sitemap location for search indexing
+Sitemap: https://ais-pre-mlki2uhpm5xmtxoj6lpg2b-58889212561.asia-east1.run.app/sitemap.xml

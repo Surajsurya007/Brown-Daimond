@@ -1,0 +1,6 @@
+{
+  "name": "Brown Daimond",
+  "description": "The premier luxury diamond education platform for natural, lab-grown, fancy colored, Champagne, Cognac, and industrial diamonds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
