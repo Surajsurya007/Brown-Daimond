@@ -16,6 +16,80 @@ interface ChatMessage {
   parts: [{ text: string }];
 }
 
+const parseBoldText = (text: string) => {
+  const parts = text.split(/(\*\*.*?\*\*)/);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="text-amber-500 font-bold font-sans">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+};
+
+const renderMessageText = (text: string) => {
+  const segments = text.split('\n');
+  return segments.map((line, idx) => {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      return <div key={idx} className="h-1.5" />;
+    }
+
+    if (trimmed.startsWith('###')) {
+      const headerText = trimmed.replace(/^###\s*/, '');
+      return (
+        <h5
+          key={idx}
+          className="font-serif font-semibold text-amber-500 mt-2.5 mb-1 text-sm tracking-tight"
+        >
+          {parseBoldText(headerText)}
+        </h5>
+      );
+    } else if (trimmed.startsWith('#')) {
+      const headerText = trimmed.replace(/^#+\s*/, '');
+      return (
+        <h4
+          key={idx}
+          className="font-serif font-bold text-amber-500 mt-3 mb-1 text-sm tracking-tight"
+        >
+          {parseBoldText(headerText)}
+        </h4>
+      );
+    }
+
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      const itemText = trimmed.substring(2);
+      return (
+        <div key={idx} className="flex gap-1.5 pl-1.5 py-0.5 leading-relaxed items-start">
+          <span className="text-amber-500 shrink-0 select-none">•</span>
+          <span className="flex-1">{parseBoldText(itemText)}</span>
+        </div>
+      );
+    }
+
+    const matchNumbered = trimmed.match(/^(\d+)\.\s+(.*)$/);
+    if (matchNumbered) {
+      const num = matchNumbered[1];
+      const itemText = matchNumbered[2];
+      return (
+        <div key={idx} className="flex gap-1.5 pl-1.5 py-0.5 leading-relaxed items-start">
+          <span className="text-amber-500 font-mono font-bold shrink-0 select-none">{num}.</span>
+          <span className="flex-1">{parseBoldText(itemText)}</span>
+        </div>
+      );
+    }
+
+    return (
+      <p key={idx} className="py-0.5 leading-relaxed">
+        {parseBoldText(line)}
+      </p>
+    );
+  });
+};
+
 export default function Chatbot({ isLightTheme }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -153,7 +227,7 @@ export default function Chatbot({ isLightTheme }: ChatbotProps) {
                           : 'bg-stone-900/80 border border-amber-900/10 text-stone-200 rounded-tl-none'
                       }`}
                     >
-                      {msg.parts[0].text}
+                      {renderMessageText(msg.parts[0].text)}
                     </div>
                   </div>
                 );
