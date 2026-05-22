@@ -1,4 +1,3 @@
 # Google AdSense Certified Publisher Authorization File
 # Fulfilling requirements for Google AdSense monetization eligibility
-# REPLACE the placeholder "pub-0000000000000000" with your actual Google AdSense Merchant/Publisher account ID once approved.
-google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+google.com, pub-1473243280107833, DIRECT, f08c47fec0942fa0
